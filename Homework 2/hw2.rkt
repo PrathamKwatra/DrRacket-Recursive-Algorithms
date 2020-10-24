@@ -1,0 +1,82 @@
+; <Pratham Kwatra>
+#lang racket
+
+; some quick unit tests are provided for you to check your code (eventually you should write your own!)
+; note that passing these unit tests does not guarantee that your code is optimal nor always correct
+; however, if you don't pass all of them, then you know you've done something wrong
+
+; question #1B
+; input-spec : list L, arity of one
+; output-spec: if there is a atleast one 'q in list L, then true otherwise false
+(define (AtLeastOneQ L)
+  (if (null? L) #f
+      (or (equal? 'q (first L)) (AtLeastOneQ (rest L))))) ; <---  replace this line with your actual implementation
+
+(if (AtLeastOneQ '(a q b)) "AtLeastOneQ passes first test" "AtLeastOneQ FAILED first test")
+(if (AtLeastOneQ '(a b c)) "AtLeastOneQ FAILED second test" "AtLeastOneQ passes second test")
+(if (AtLeastOneQ '(q q q)) "AtLeastOneQ passes third test" "AtLeastOneQ FAILED third test")
+(display "\n")
+
+
+; question #1C
+; input-spec : list L, arity of one
+; output-spec: if there is a atleast one 'x in list L, then true otherwise false
+(define (AtLeastOneX L)
+(if (null? L) #f
+      (or (equal? 'x (first L)) (AtLeastOneX (rest L))))) ; <---  replace this line with your actual implementation
+
+(string-append "AtLeastOneX " (if (AtLeastOneX '(a x b)) "passes" "FAILED") " first test")
+(string-append "AtLeastOneX " (if (AtLeastOneX '(a b c)) "FAILED" "passes") " second test")
+(string-append "AtLeastOneX " (if (AtLeastOneX '(x x x)) "passes" "FAILED") " third test")
+(display "\n")
+
+; question #1D
+; input-spec : list L and a racket symbol, arity of two
+; output-spec: if there is a atleast one z symbol in list L, then true otherwise false
+(define (AtLeastOne L z)
+  (if (null? L) #f
+      (or (equal? z (first L)) (AtLeastOne (rest L) z)))) ; <---  replace this line with your actual implementation
+
+(string-append "AtLeastOne " (if (AtLeastOne '(a x b) 'x) "passes" "FAILED") " first test")
+(string-append "AtLeastOne " (if (AtLeastOne '(a b c) 'x) "FAILED" "passes") " second test")
+(string-append "AtLeastOne " (if (AtLeastOne '(x x x) 'x) "passes" "FAILED") " third test")
+(display "\n")
+
+; question #1E
+(define (x_finder L x); helper function for 1F and 1E
+  (if (null? L)
+      #f
+      (if (equal? (first L) x)
+          #t
+          (x_finder (rest L) x)))); finds the remaining x in a list
+
+; input-spec : list L and a racket symbol, arity of two
+; output-spec: if there is a at most one z symbol in list L, then true otherwise false
+(define (AtMostOne L z)
+    (if (null? L) #t
+      (if (equal? z (first L))
+          (not (x_finder (rest L) z))
+          (AtMostOne (rest L) z)))) ; <---  replace this line with your actual implementation
+
+(string-append "AtMostOne " (if (AtMostOne '(a x b) 'x) "passes" "FAILED") " first test")
+(string-append "AtMostOne " (if (AtMostOne '(a b c) 'x) "passes" "FAILED") " second test")
+(string-append "AtMostOne " (if (AtMostOne '(a x x) 'x) "FAILED" "passes") " third test")
+(string-append "AtMostOne " (if (AtMostOne '(x x x) 'x) "FAILED" "passes") " fourth test")
+(display "\n")
+
+; question #1F
+; input-spec : list L and a racket symbol, arity of two
+; output-spec: if there is a exactly one z symbol in list L, then true otherwise false
+
+(define (ExactlyOne L z)
+ (if (null? L) #f
+      (if (equal? z (first L))
+          (not (x_finder (rest L) z))
+          (ExactlyOne (rest L) z)))) ; <---  replace this line with your actual implementation
+
+(string-append "ExactlyOne " (if (ExactlyOne '(a x b) 'x) "passes" "FAILED") " first test")
+(string-append "ExactlyOne " (if (ExactlyOne '(a b c) 'x) "FAILED" "passes") " second test")
+(string-append "ExactlyOne " (if (ExactlyOne '(a x x) 'x) "FAILED" "passes") " third test")
+(string-append "ExactlyOne " (if (ExactlyOne '(x x x) 'x) "FAILED" "passes") " fourth test")
+(display "\n")
+

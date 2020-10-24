@@ -1,0 +1,8 @@
+#lang racket
+;input-spec: arity of 2, mRock is a rock notation list and nRock is rock notation list of length L
+;output-spec: one rock notation list
+(define (addRock mRock nRock)
+;(cond [(null? mRock) nRock]
+;[(null? nRock) mRock]
+(append mRock nRock))
+(addRock '() '(rock))

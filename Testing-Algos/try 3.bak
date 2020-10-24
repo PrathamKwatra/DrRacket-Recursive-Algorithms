@@ -1,0 +1,5 @@
+#lang racket
+(define (countOne L)
+  (if (null? L) 0 (+ (first L)(countOne (rest L)))))
+(define (countOneA L)
+  (if (null? L) 0 (if (equal? (first L)1 ))(+ 1 (countOneA (rest L))) (countOneA (rest L)))))

@@ -1,0 +1,113 @@
+#lang racket
+#|
+(define (myImplies a b)
+  (if a b #t))
+
+;(myImplies #t #t)
+;(myImplies #t #f)
+;(myImplies #f #t)
+;(myImplies #f #f)
+
+
+(define (mylength L)
+  (if (null? L) 0
+      (+ 1 (mylength (rest L)))))
+
+;(mylength '( 1 2))
+
+(define (ExactlyOneBrief L z)
+  (if (not (member z L)) #f
+      (not (member z (remove z L))
+           )
+      )
+  )
+(define (x_finder L x); helper function for 1F and 1E
+  (if (null? L)
+      #f
+      (if (equal? (first L) x)
+          #t
+          (x_finder (rest L) x)))); finds the remaining x in a list
+
+(define (ExactlyOne L z)
+ (if (null? L) #f
+      (if (equal? z (first L))
+          (not (x_finder (rest L) z))
+          (ExactlyOne (rest L) z)))) ; <---  replace this line with your actual implementation
+
+
+;(string-append "ExactlyOne " (if (ExactlyOneBrief '(a x b) 'x) "passes" "FAILED") " first test")
+;(string-append "ExactlyOne " (if (ExactlyOneBrief '(a b c) 'x) "FAILED" "passes") " second test")
+;(string-append "ExactlyOne " (if (ExactlyOneBrief '(a x x) 'x) "FAILED" "passes") " third test")
+;(string-append "ExactlyOne " (if (ExactlyOneBrief '(x  x  x x x x x x (x x)) 'x) "FAILED" "passes") " fourth test")
+;(display "\n")
+|#
+
+(define (zero? n)
+  (eq? n 'zero))
+
+(define (nat? x)
+  (cond
+    [(zero? x) #t]
+    [(pair? x) (and (eq? (first x) 'succ) (nat? (second x)))]
+    [else #f]))
+
+(define (successor n)
+  (list 'succ n))
+
+(define (pred n)
+  (if (zero? n) 'zero (second n)))
+
+(define zero 'zero)
+(define one (successor zero))
+(define two (successor one))
+(define three (successor two))
+(define four (successor three))
+(define five (successor four))
+(define six (successor five))
+(define seven (successor six))
+(define eight (successor seven))
+(define nine (successor eight))
+(define ten (successor nine))
+
+; addition of Peano numbers
+; Input: m, n Peano numbers
+; Output: a Peano number whose value is m+n
+(define (plus m n)
+  (if (zero? m) n (plus (pred m) (successor n)))
+  )
+
+; multiplication of Peano numbers
+; Input: m, n Peano numbers
+; Output: a Peano number whose value is m*n
+(define (mult m n)
+  (cond [(equal? one m) n]
+        [(equal? one n) m]
+        [(plus n (mult (pred m) n))]
+        )
+)
+
+; comparison of Peano numbers
+; Input: m, n Peano numbers
+; Output: a boolean = #t if the value of m < value of n and #f otherwise
+(define (ltnat? m n)
+  (if (zero? n) #f (if (zero? m) #t (ltnat? (second m) (second n)))))
+
+; subtraction of Peano numbers
+; Input: m, n Peano numbers
+; Output: a Peano number whose value is m-n if m >= n.
+;         It is undefined otherwise.
+(define (sub m n)
+ (cond [(zero? n) m]
+       [(eq? m n) 'zero]
+       [(ltnat? m n) (display "undefined")]
+       [(sub (pred m) (pred n))]
+  )
+ )
+
+; Division of Peano numbers
+; Input: m, n Peano numbers
+; Output: a Peano number whose value q is the quotient of m divided by n.
+;         m = q*n + r with 0 <= r < n.
+(define (div m n)
+    (if (ltnat? m n) (+ 1 (div (sub m n) n)) 1)
+  )

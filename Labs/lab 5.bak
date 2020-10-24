@@ -1,0 +1,7 @@
+#lang racket
+(define (D a)
+  (if (equal? 0 a) 0 (* 2 a)))
+(define (DP1 a)
+  (if (equal? 0 a) 1 (+ 1 (* 2 a))))
+
+(D (DP1 (D (D (D (DP1 0))))))
